@@ -37,7 +37,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<AppDbContext>();
 
-    // Chama o método de inicialização de categorias
+    
     DbInitializer.Initialize(context);
 }
 

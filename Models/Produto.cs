@@ -9,19 +9,25 @@ namespace InventoryManager.Models
 
         [Required]
         [StringLength(100)]
-        public string Nome { get; set; }
-
-        public string Descricao { get; set; }
+        public string Categoria { get; set; }
 
         [Required]
-        [Range(0.01, double.MaxValue, ErrorMessage = "O preço deve ser positivo.")]
-        public decimal Preco { get; set; }
+        [StringLength(100)]
+        public string Tipo { get; set; }
 
+        [Required]
+        [StringLength(100)]
+        public string Marca { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string Modelo { get; set; }
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "A quantidade não pode ser negativa.")]
         public int Quantidade { get; set; }
 
-        public int CategoriaId { get; set; }
-        public Categoria Categoria { get; set; }
+        [Required]
+        [Range(0.01, double.MaxValue, ErrorMessage = "O preço deve ser positivo.")]
+        public decimal Preco { get; set; }
     }
 }

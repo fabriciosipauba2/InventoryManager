@@ -18,22 +18,33 @@ namespace InventoryManager.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Produto>>> GetProdutos()
+        public ActionResult<IEnumerable<Produto>> GetProdutos()
         {
-            return await _context.Produtos.ToListAsync();
+            return _context.Produtos.ToList();
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<Produto> GetProduto(int id)
+        {
+            var produto = _context.Produtos.Find(id);
+            if (produto == null)
+            {
+                return NotFound();
+            }
+            return produto;
         }
 
         [HttpPost]
-        public async Task<ActionResult<Produto>> PostProduto([FromBody] Produto produto)
+        public ActionResult<Produto> PostProduto(Produto produto)
         {
-
             _context.Produtos.Add(produto);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetProdutos), new { id = produto.Id }, produto);
+            _context.SaveChanges();
+
+            return CreatedAtAction(nameof(GetProduto), new { id = produto.Id }, produto);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduto(int id, Produto produto)
+        public IActionResult PutProduto(int id, Produto produto)
         {
             if (id != produto.Id)
             {
@@ -41,44 +52,24 @@ namespace InventoryManager.Controllers
             }
 
             _context.Entry(produto).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProdutoExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            _context.SaveChanges();
 
             return NoContent();
         }
-                
+
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduto(int id)
+        public IActionResult DeleteProduto(int id)
         {
-            var produto = await _context.Produtos.FindAsync(id);
+            var produto = _context.Produtos.Find(id);
             if (produto == null)
             {
                 return NotFound();
             }
 
             _context.Produtos.Remove(produto);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             return NoContent();
-        }
-               
-        private bool ProdutoExists(int id)
-        {
-            return _context.Produtos.Any(e => e.Id == id);
         }
     }
 }

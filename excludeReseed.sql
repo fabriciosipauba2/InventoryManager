@@ -1,0 +1,2 @@
+﻿DELETE FROM Produtos;
+DBCC CHECKIDENT ('Produtos', RESEED, 0);
