@@ -37,6 +37,7 @@ namespace InventoryManager.Controllers
         [HttpPost]
         public ActionResult<Produto> PostProduto(Produto produto)
         {
+                    produto = produtoExistente
             _context.Produtos.Add(produto);
             _context.SaveChanges();
 
